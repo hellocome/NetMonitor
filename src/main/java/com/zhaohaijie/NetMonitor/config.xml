@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<configuration>
+    <tasks>
+        <task name="CAM">
+            <!-- Common task settings -->
+
+            <taskbuilder>com.workday.codetest.gridreactive.GithubRepositoriesSearchTaskBuilder</taskbuilder>
+
+            <workers>
+                <worker name="com.workday.codetest.gridreactive.TwitterSearchTaskWorker">
+                    <taskresultprocessors>
+                        <taskresultprocessor>com.workday.codetest.gridreactive.resultprocessors.TwitterSearchResultJsonProcessor</taskresultprocessor>
+                    </taskresultprocessors>
+                </worker>
+            </workers>
+
+
+            <!-- project specific setting -->
+            <Twitter id=""/>
+
+            <!-- keyword (q), sort= asc or desc -->
+            <github>
+                <keyword>reactive</keyword>
+                <sort>asc</sort>
+            </github>
+            <twitter>
+                <keywords>
+                    <githubfield>full_name</githubfield>
+                </keywords>
+            </twitter>
+
+        </task>
+    </tasks>
+</configuration>
