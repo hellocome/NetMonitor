@@ -16,12 +16,13 @@ import java.util.List;
  */
 public class TaskConfiguration {
     protected Log logger = LogFactory.getLog();
+    private static final int DEFAULT_CORE_POOL_SIZE = 3;
 
     private Configurations configs = new Configurations();
     protected XMLConfiguration config;
 
     public TaskConfiguration() throws ConfigurationException {
-        File configFile = new File("codetest.config.xml");
+        File configFile = new File("config.xml");
         if(!configFile.exists()){
             logger.error("can't find codetest.config.xml in : " + configFile.getAbsolutePath());
         }
@@ -124,5 +125,22 @@ public class TaskConfiguration {
         logger.info("Search keyword: " + (processors != null ? processors.size() : "0"));
 
         return processors;
+    }
+
+    public int getCorePoolSize(){
+        int corePoolSize = DEFAULT_CORE_POOL_SIZE;
+
+        try {
+            corePoolSize = this.getConfig()
+                    .getInt("//TaskCenter/corepoolsize",
+                            DEFAULT_CORE_POOL_SIZE);
+
+        }catch (Exception ex){
+            logger.error("Failed to getCorePoolSize", ex);
+        }
+
+        logger.info("getCorePoolSize: " + corePoolSize);
+
+        return corePoolSize;
     }
 }

@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <configuration>
+    <TaskCenter>
+        <!--
+        corePoolSize - the number of threads to keep in the pool, even if they are idle, unless
+        allowCoreThreadTimeOut is set we can make this configurable, just set it as default value
+        because want to finish this code test as soon as possible.
+        -->
+        <corepoolsize>3</corepoolsize>
+    </TaskCenter>
+
     <tasks>
         <task name="CAM">
             <!-- Common task settings -->
@@ -7,28 +16,19 @@
             <taskbuilder>com.workday.codetest.gridreactive.GithubRepositoriesSearchTaskBuilder</taskbuilder>
 
             <workers>
-                <worker name="com.workday.codetest.gridreactive.TwitterSearchTaskWorker">
+                <worker name="com.zhaohaijie.NetMonitor.CamScan.PortScanWorker">
                     <taskresultprocessors>
-                        <taskresultprocessor>com.workday.codetest.gridreactive.resultprocessors.TwitterSearchResultJsonProcessor</taskresultprocessor>
+                        <taskresultprocessor>com.zhaohaijie.NetMonitor.CamScan.PortScanResultProcessor</taskresultprocessor>
                     </taskresultprocessors>
                 </worker>
             </workers>
 
 
-            <!-- project specific setting -->
-            <Twitter id=""/>
-
-            <!-- keyword (q), sort= asc or desc -->
-            <github>
-                <keyword>reactive</keyword>
-                <sort>asc</sort>
-            </github>
-            <twitter>
-                <keywords>
-                    <githubfield>full_name</githubfield>
-                </keywords>
-            </twitter>
-
+            <scan>
+                <CIDRBlock>79.97.0.0/18</CIDRBlock>
+                <PortList>81</PortList>
+            </scan>
         </task>
     </tasks>
+
 </configuration>

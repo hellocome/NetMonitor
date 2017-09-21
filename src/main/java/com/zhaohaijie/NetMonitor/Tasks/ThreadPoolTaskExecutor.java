@@ -17,12 +17,12 @@ public class ThreadPoolTaskExecutor implements TaskExecutor {
     private int corePoolSize = 3;
 
     // maximumPoolSize - the maximum number of threads to allow in the pool
-    private int maxPoolSize = Integer.MAX_VALUE;
+    private final int maxPoolSize = Integer.MAX_VALUE;
 
     // keepAliveTime - when the number of threads is greater than the core, this is the maximum time that excess idle threads will wait for new tasks before terminating.
     //                 we can make this configurable, just set it as default value because want to finish this code test as soon as possible.
-    private int keepAliveSeconds = 60;
-    private int queueCapacity = Integer.MAX_VALUE;
+    private final int keepAliveSeconds = 60;
+    private final int queueCapacity = Integer.MAX_VALUE;
     private ThreadPoolExecutor threadPoolExecutor;
 
     public int getKeepAliveSeconds() {
@@ -42,6 +42,14 @@ public class ThreadPoolTaskExecutor implements TaskExecutor {
     public int getCorePoolSize() {
         synchronized (this.poolSizeMonitor) {
             return this.corePoolSize;
+        }
+    }
+
+    public void setCorePoolSize(int size) {
+        synchronized (this.poolSizeMonitor) {
+            if(size > 0) {
+                this.corePoolSize = size;
+            }
         }
     }
 
@@ -67,6 +75,10 @@ public class ThreadPoolTaskExecutor implements TaskExecutor {
         return this.threadPoolExecutor.getPoolSize();
     }
 
+    /**
+     * Get active count of the threads
+     * @return Get the number of active threads
+     */
     public int getActiveCount() {
         if (this.threadPoolExecutor == null) {
             // Not initialized, assume 0 active count.
@@ -88,11 +100,9 @@ public class ThreadPoolTaskExecutor implements TaskExecutor {
 
         BlockingQueue<Runnable> queue = createBlockingQueue(this.queueCapacity);
 
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(
+        this.threadPoolExecutor = new ThreadPoolExecutor(
                     this.corePoolSize, this.maxPoolSize, this.keepAliveSeconds, TimeUnit.SECONDS,
                     queue, threadFactory, rejectedExecutionHandler);
-
-        this.threadPoolExecutor = executor;
     }
 
 
@@ -120,6 +130,7 @@ public class ThreadPoolTaskExecutor implements TaskExecutor {
         }
     }
 
+    @Override
     public Future<?> submit(Runnable task) {
         ExecutorService executor = getThreadPoolExecutor();
 
