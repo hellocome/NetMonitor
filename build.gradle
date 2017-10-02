@@ -11,6 +11,15 @@ repositories {
     mavenCentral()
 }
 
+
+jar {
+  manifest {
+    attributes(
+      'Main-Class': 'com.workday.codetest.Main'
+    )
+  }
+}
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 // https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils
