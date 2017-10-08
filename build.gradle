@@ -11,12 +11,12 @@ repositories {
     mavenCentral()
 }
 
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'org.apache.commons', name: 'commons-configuration2', version: '2.0'
     compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.2'
     compile group: 'commons-net', name: 'commons-net', version: '3.6'
-
 }
 
 jar {
@@ -30,6 +30,8 @@ jar {
 }
 
 task copyToLibs(type: Copy) {
-    into "$buildDir/libs"
+
     from configurations.runtime
+    from "src/main/java/com/zhaohaijie/NetMonitor/config.xml"
+    into "$buildDir/libs"
 }
