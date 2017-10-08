@@ -13,7 +13,7 @@
         <task name="CAM">
             <!-- Common task settings -->
 
-            <taskbuilder>com.workday.codetest.gridreactive.GithubRepositoriesSearchTaskBuilder</taskbuilder>
+            <taskbuilder>com.zhaohaijie.NetMonitor.CamScan.CamScanTaskBuilder</taskbuilder>
 
             <workers>
                 <worker name="com.zhaohaijie.NetMonitor.CamScan.PortScanWorker">

@@ -5,6 +5,7 @@ import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Logger;
 
 import com.zhaohaijie.NetMonitor.Logging.Log;
 import com.zhaohaijie.NetMonitor.Logging.LogFactory;
@@ -76,6 +77,7 @@ public final class ThreadPoolTaskManager implements TaskManager {
         try {
             TaskConfiguration config = new TaskConfiguration();
             List<TaskBuilder> taskBuilders = config.getTaskBuilders();
+            logger.info("Size: " + taskBuilders.size());
 
             for (TaskBuilder builder: taskBuilders){
                 builder.setTaskManager(this);

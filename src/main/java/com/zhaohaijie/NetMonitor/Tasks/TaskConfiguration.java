@@ -4,8 +4,11 @@ import com.zhaohaijie.NetMonitor.Logging.Log;
 import com.zhaohaijie.NetMonitor.Logging.LogFactory;
 import com.zhaohaijie.NetMonitor.Utils.ClassUtils;
 import org.apache.commons.configuration2.XMLConfiguration;
+import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
+import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -24,9 +27,18 @@ public class TaskConfiguration {
     public TaskConfiguration() throws ConfigurationException {
         File configFile = new File("config.xml");
         if(!configFile.exists()){
-            logger.error("can't find codetest.config.xml in : " + configFile.getAbsolutePath());
+            logger.error("can't find config.xml in : " + configFile.getAbsolutePath());
         }
+
+        logger.info("load config.xml: " + configFile.getAbsolutePath());
         config = configs.xml(configFile.getAbsolutePath());
+        Parameters params = new Parameters();
+        FileBasedConfigurationBuilder<XMLConfiguration> builder =
+                new FileBasedConfigurationBuilder<>(XMLConfiguration.class)
+                        .configure(params.xml()
+                                .setFileName(configFile.getAbsolutePath()));
+        config = builder.getConfiguration();
+        config.setExpressionEngine(new XPathExpressionEngine());
     }
 
     public XMLConfiguration getConfig() {
@@ -38,8 +50,8 @@ public class TaskConfiguration {
         List<TaskBuilder> builders = new LinkedList<>();
 
         try {
-
             List<Object> classes = this.getConfig().getList("//task/taskbuilder");
+            logger.info("Object builder: " + classes.size());
 
             for (Object obj : classes) {
                 if (obj != null && obj.toString().length() > 0) {
@@ -56,7 +68,7 @@ public class TaskConfiguration {
             logger.error("Failed to getGithubSearchKeyWord", ex);
         }
 
-        logger.info("Search keyword: " + (builders != null ? builders.size() : "0"));
+        logger.info("Builders: " + (builders != null ? builders.size() : "0"));
 
         return builders;
     }
@@ -91,7 +103,7 @@ public class TaskConfiguration {
             logger.error("Failed to getGithubSearchKeyWord", ex);
         }
 
-        logger.info("Search keyword: " + (workers != null ? workers.size() : "0"));
+        logger.info("getTaskWorkers: " + (workers != null ? workers.size() : "0"));
 
         return workers;
     }
@@ -122,7 +134,7 @@ public class TaskConfiguration {
             logger.error("Failed to getGithubSearchKeyWord", ex);
         }
 
-        logger.info("Search keyword: " + (processors != null ? processors.size() : "0"));
+        logger.info("getTaskResultProcessor: " + (processors != null ? processors.size() : "0"));
 
         return processors;
     }

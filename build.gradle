@@ -17,6 +17,7 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-configuration2', version: '2.0'
     compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.2'
     compile group: 'commons-net', name: 'commons-net', version: '3.6'
+    compile group: 'commons-jxpath', name: 'commons-jxpath', version: '1.3'
 }
 
 jar {
@@ -32,6 +33,11 @@ jar {
 task copyToLibs(type: Copy) {
 
     from configurations.runtime
+    from "src/main/java/com/zhaohaijie/NetMonitor/config.xml"
+    into "$buildDir/libs"
+}
+
+task cpConfig(type: Copy) {
     from "src/main/java/com/zhaohaijie/NetMonitor/config.xml"
     into "$buildDir/libs"
 }

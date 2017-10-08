@@ -59,6 +59,7 @@ public class CamScanConfigurationAdapter {
 
         try {
             if(codeTestConfiguration != null) {
+                logger.info("Read getCIDRBlock: " + taskName);
                 ipR = codeTestConfiguration.getConfig().getString("//task[@name='" + taskName + "']/Scan/CIDRBlock");
             }
         }catch (Exception ex){
