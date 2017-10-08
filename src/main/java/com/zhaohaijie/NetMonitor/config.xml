@@ -6,7 +6,7 @@
         allowCoreThreadTimeOut is set we can make this configurable, just set it as default value
         because want to finish this code test as soon as possible.
         -->
-        <corepoolsize>3</corepoolsize>
+        <corepoolsize>500</corepoolsize>
     </TaskCenter>
 
     <tasks>

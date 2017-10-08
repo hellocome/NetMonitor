@@ -65,7 +65,7 @@ public class TaskConfiguration {
             }
 
         } catch (Exception ex) {
-            logger.error("Failed to getGithubSearchKeyWord", ex);
+            logger.error("Failed to getTaskBuilders", ex);
         }
 
         logger.info("Builders: " + (builders != null ? builders.size() : "0"));
@@ -78,8 +78,8 @@ public class TaskConfiguration {
         List<TaskWorker> workers = new LinkedList<>();
 
         try {
-
-            List<Object> classes = this.getConfig().getList("//task[name=" + taskname + "]/workers/worker[@name]");
+            List<Object> classes = this.getConfig().getList("//task[@name='" + taskname + "']/workers/worker/@name");
+            logger.info("Object worker: " + classes.size());
 
             for (Object obj : classes) {
                 if (obj != null && obj.toString().length() > 0) {
@@ -100,7 +100,7 @@ public class TaskConfiguration {
             }
 
         } catch (Exception ex) {
-            logger.error("Failed to getGithubSearchKeyWord", ex);
+            logger.error("Failed to getTaskWorkers", ex);
         }
 
         logger.info("getTaskWorkers: " + (workers != null ? workers.size() : "0"));
@@ -117,8 +117,8 @@ public class TaskConfiguration {
 
         try {
 
-            List<Object> classes = this.getConfig().getList("//task[name=" + taskname + "]/workers/worker[name=" + workername + "]/taskresultprocessors/taskresultprocessor");
-
+            List<Object> classes = this.getConfig().getList("//task[@name='" + taskname + "']/workers/worker[@name='" + workername + "']/taskresultprocessors/taskresultprocessor");
+            logger.info("Object getTaskResultProcessor: " + classes.size());
             for (Object obj : classes) {
                 if (obj != null && obj.toString().length() > 0) {
                     TaskResultProcessor processor = ClassUtils.getInstanceOf(obj.toString(), TaskResultProcessor.class);
@@ -131,7 +131,7 @@ public class TaskConfiguration {
             }
 
         } catch (Exception ex) {
-            logger.error("Failed to getGithubSearchKeyWord", ex);
+            logger.error("Failed to getTaskResultProcessor", ex);
         }
 
         logger.info("getTaskResultProcessor: " + (processors != null ? processors.size() : "0"));

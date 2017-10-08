@@ -17,6 +17,7 @@ public class CamScanTask extends AbstractTask {
     @Override
     public void run() {
         try {
+            this.setChanged();
             this.notifyObservers(this.socketAddress);
         } catch (Exception ex) {
             logger.error(String.format("Fail to run task: taskid=%d ip=%s:%d", taskId, this.socketAddress.getAddress(), this.socketAddress.getPort()));
@@ -43,9 +44,10 @@ public class CamScanTask extends AbstractTask {
     }
 
     public void registerWorkers(List<TaskWorker> workers) {
-
+        //logger.info("registerWorkers");
         if (workers != null) {
             for (TaskWorker worker : workers) {
+                // logger.info("registerWorkers: " + worker);
                 registerWorker(worker);
             }
         }

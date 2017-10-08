@@ -14,7 +14,7 @@ import com.zhaohaijie.NetMonitor.Logging.LogFactory;
  * Created by ZHJ on 2/15/2017.
  */
 public final class ThreadPoolTaskManager implements TaskManager {
-    private TaskExecutor taskExecutor;
+    private ThreadPoolTaskExecutor taskExecutor;
     private String threadNamePrefix;
     private int threadPriority = Thread.NORM_PRIORITY;
     private boolean daemon = false;
@@ -53,14 +53,14 @@ public final class ThreadPoolTaskManager implements TaskManager {
 
     public void addTask(AbstractTask task) {
         if (task != null) {
-            logger.debug("Add new task: " + task.getTaskId());
+            /// logger.debug("Add new task: " + task.getTaskId());
             taskExecutor.execute(task);
         }
     }
 
     public void addAllTasks(List<AbstractTask> tasks) {
         if (tasks != null) {
-            logger.debug("Add total task: " + tasks.size());
+            // logger.debug("Add total task: " + tasks.size());
             for (AbstractTask task: tasks) {
                 taskExecutor.execute(task);
             }
@@ -77,7 +77,12 @@ public final class ThreadPoolTaskManager implements TaskManager {
         try {
             TaskConfiguration config = new TaskConfiguration();
             List<TaskBuilder> taskBuilders = config.getTaskBuilders();
-            logger.info("Size: " + taskBuilders.size());
+
+            taskExecutor.setCorePoolSize(config.getCorePoolSize());
+
+            taskExecutor.start();
+
+            logger.info("startTaskManager: " + taskBuilders.size());
 
             for (TaskBuilder builder: taskBuilders){
                 builder.setTaskManager(this);

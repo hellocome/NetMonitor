@@ -43,6 +43,10 @@ public class CamScanConfigurationAdapter {
         CamScanConfigurationAdapter configurationAdapter = null;
 
         try {
+            if(taskName == null || taskName.isEmpty()){
+                taskName = "CAM";
+            }
+
             configurationAdapter = new CamScanConfigurationAdapter(taskName);
             configurationAdapter.init();
         } catch (Exception ex) {
@@ -60,7 +64,7 @@ public class CamScanConfigurationAdapter {
         try {
             if(codeTestConfiguration != null) {
                 logger.info("Read getCIDRBlock: " + taskName);
-                ipR = codeTestConfiguration.getConfig().getString("//task[@name='" + taskName + "']/Scan/CIDRBlock");
+                ipR = codeTestConfiguration.getConfig().getString("//task[@name='" + taskName + "']/scan/CIDRBlock");
             }
         }catch (Exception ex){
             logger.error("Failed to getCIDRBlock", ex);
@@ -80,13 +84,13 @@ public class CamScanConfigurationAdapter {
 
         try {
             if(codeTestConfiguration != null) {
-                ports = codeTestConfiguration.getConfig().getString("//task[@name='" + taskName + "']/Scan/PortList");
+                ports = codeTestConfiguration.getConfig().getString("//task[@name='" + taskName + "']/scan/PortList");
             }
         }catch (Exception ex){
             logger.error("Failed to getPortList", ex);
         }
 
-        logger.info("GithubSearchOrder: " + ports);
+        logger.info("getPortList: " + ports);
 
         return ports;
     }

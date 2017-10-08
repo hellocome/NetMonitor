@@ -35,6 +35,7 @@ public class CamScanTaskBuilder implements TaskBuilder {
             configurationAdapter = CamScanConfigurationAdapter.getConfigurationAdapter(taskName); // configuration adapter for read project specific setting
             taskDispatcher = new TaskDispatcher(taskManager);
             taskDispatcherThread = new Thread(taskDispatcher); // create a spearate thread for the task dispatcher.
+            taskDispatcherThread.start();
         } catch (Exception ex) {
             logger.error("IniTaskBuild", ex);
         }
@@ -94,6 +95,7 @@ public class CamScanTaskBuilder implements TaskBuilder {
             Integer id = 0;
 
             for (final InetSocketAddress address : addresses) {
+                // logger.info("Build task: " + address);
                 CamScanTask task = new CamScanTask(address, (id++).toString());
                 task.registerWorkers(workers);
 

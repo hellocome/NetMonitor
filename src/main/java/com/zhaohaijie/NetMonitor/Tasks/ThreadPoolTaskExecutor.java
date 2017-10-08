@@ -24,6 +24,8 @@ public class ThreadPoolTaskExecutor implements TaskExecutor {
     private final int keepAliveSeconds = 60;
     private final int queueCapacity = Integer.MAX_VALUE;
     private ThreadPoolExecutor threadPoolExecutor;
+    private ThreadFactory threadFactory;
+    private RejectedExecutionHandler rejectedExecutionHandler;
 
     public int getKeepAliveSeconds() {
         synchronized (this.poolSizeMonitor) {
@@ -115,6 +117,11 @@ public class ThreadPoolTaskExecutor implements TaskExecutor {
     }
 
     public ThreadPoolTaskExecutor(ThreadFactory threadFactory, RejectedExecutionHandler rejectedExecutionHandler){
+        this.threadFactory = threadFactory;
+        this.rejectedExecutionHandler = rejectedExecutionHandler;
+   }
+
+    public void start(){
         initializeExecutor(threadFactory, rejectedExecutionHandler);
     }
 
