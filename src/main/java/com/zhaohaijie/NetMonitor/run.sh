@@ -1,2 +1,2 @@
 #!/bin/sh
-java -jar codetest.jar
+java -jar NetMonitor.jar

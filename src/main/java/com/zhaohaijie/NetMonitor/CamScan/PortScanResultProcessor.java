@@ -16,11 +16,13 @@ public class PortScanResultProcessor extends AbstractTaskResultProcessor {
             count++;
 
             if(res.IsPortOpen()) {
-                logger.info(result);
                 openCount++;
+                logger.info(result);
+                ResultFileWritter.getInstance().writeResult(res);
+                logger.info("Processed: " + count + " Open: " + openCount);
             }
             else{
-                if(count % 100 == 0){
+                if(count % 500 == 0){
                     logger.info("Processed: " + count + " Open: " + openCount);
                 }
             }

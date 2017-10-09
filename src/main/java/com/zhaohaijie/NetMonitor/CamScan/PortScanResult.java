@@ -32,6 +32,6 @@ public class PortScanResult implements TaskResult<Boolean> {
 
     @Override
     public String toString(){
-        return String.format("%s = %s", address.getAddress(), Boolean.toString(isPortOpen));
+        return String.format("%s:%d = %s", address.getAddress(), address.getPort(), Boolean.toString(isPortOpen));
     }
 }
