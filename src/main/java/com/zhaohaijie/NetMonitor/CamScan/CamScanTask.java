@@ -20,7 +20,7 @@ public class CamScanTask extends AbstractTask {
             this.setChanged();
             this.notifyObservers(this.socketAddress);
         } catch (Exception ex) {
-            logger.error(String.format("Fail to run task: taskid=%d ip=%s:%d", taskId, this.socketAddress.getAddress(), this.socketAddress.getPort()));
+            logger.error(String.format("Fail to run task: taskid=%s ip=%s:%d", taskId, this.socketAddress.getAddress(), this.socketAddress.getPort()));
             logger.error("Fail to run task, reason: ", ex);
         }
     }

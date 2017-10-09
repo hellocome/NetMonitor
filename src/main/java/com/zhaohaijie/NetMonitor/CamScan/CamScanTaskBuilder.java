@@ -92,6 +92,7 @@ public class CamScanTaskBuilder implements TaskBuilder {
         try {
             List<TaskWorker> workers = configurationAdapter.getTaskWorkers();
             ArrayList<InetSocketAddress> addresses = getInetSocketAddressList();
+            logger.info("Total IPs task: " + addresses.size());
             Integer id = 0;
 
             for (final InetSocketAddress address : addresses) {

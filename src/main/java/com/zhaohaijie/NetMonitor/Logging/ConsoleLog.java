@@ -52,7 +52,7 @@ public class ConsoleLog implements Log {
         final Date date = new Date();
 
         if(log != null){
-            System.out.println(String.format("$1%s $2%6s %$3s", dateFormat.format(date), mode));
+            System.out.println(String.format("$1%s $2%6s", dateFormat.format(date), mode));
             log.printStackTrace();
         }
         else{

@@ -1,5 +1,8 @@
 package com.zhaohaijie.NetMonitor.CamScan;
 
+import com.zhaohaijie.NetMonitor.Logging.Log;
+import com.zhaohaijie.NetMonitor.Logging.LogFactory;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,6 +13,7 @@ import java.util.Date;
  * Created by ZHJ on 10/8/2017.
  */
 public class ResultFileWritter {
+    protected static Log logger = LogFactory.getLog();
     private static String SAVETO = "results";
     private static String fileName;
     private FileWriter writter;
@@ -28,15 +32,18 @@ public class ResultFileWritter {
 
     private ResultFileWritter() throws IOException {
         fileName = String.format("%s.txt", getDateTimeNow());
-        File path = new File(new File(".").getCanonicalPath() + File.separator + SAVETO +
-                File.separator+ fileName);
+        logger.info("File: " + fileName);
+        File path = new File(new File(".").getCanonicalPath() + File.separator + SAVETO);
         File file = new File(path.getAbsolutePath() + File.separator+ fileName);
+        logger.info("File Abs: " + file.getAbsolutePath());
 
         if(!path.exists() || !path.isDirectory()){
+            logger.info("Dir: " + path.getAbsolutePath());
             path.mkdir();
         }
 
         if(!file.exists()){
+            logger.info("Create: " + file.getAbsolutePath());
             file.createNewFile();
         }
 
@@ -49,7 +56,9 @@ public class ResultFileWritter {
     }
 
 
-    public void writeResult(PortScanResult result) throws IOException{
-        writter.write(String.format("%s:%d=%s", result.getAddress().getAddress(), result.getAddress().getPort(), Boolean.toString(result.IsPortOpen())));
+    public synchronized void writeResult(PortScanResult result) throws IOException{
+        writter.write(String.format("%s:%d=%s\r\n", result.getAddress().getHostName(),
+                result.getAddress().getPort(), Boolean.toString(result.IsPortOpen())));
+        writter.flush();
     }
 }
